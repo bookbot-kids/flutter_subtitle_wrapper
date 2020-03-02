@@ -8,16 +8,22 @@ class SubtitleController {
   String subtitlesContent;
   String subtitleUrl;
   final bool showSubtitles;
+  final bool usingComma;
 
-  SubtitleController({
-    this.subtitleUrl,
-    this.subtitlesContent,
-    this.showSubtitles = true,
-  });
+  SubtitleController(
+      {this.subtitleUrl,
+      this.subtitlesContent,
+      this.showSubtitles = true,
+      this.usingComma = false});
 
   Future<Subtitles> getSubtitles() async {
+    var separate = usingComma == true ? ',' : '.';
     RegExp regExp = new RegExp(
-      r"^((\d{2}):(\d{2}):(\d{2})\.(\d+)) +--> +((\d{2}):(\d{2}):(\d{2})\.(\d{3})).*[\r\n]+\s*((?:(?!\r?\n\r?).)*)",
+      r"^((\d{2}):(\d{2}):(\d{2})\" +
+          separate +
+          r"(\d+)) +--> +((\d{2}):(\d{2}):(\d{2})\" +
+          separate +
+          r"(\d{3})).*[\r\n]+\s*((?:(?!\r?\n\r?).)*)",
       caseSensitive: false,
       multiLine: true,
     );
